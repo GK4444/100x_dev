@@ -11,6 +11,20 @@ var users = [{
 }]
 
 app.get("/", function(req, res) {
+  const johnKidneys = users[0].kidneys;
+  const numberOfKidneys = johnKidneys.length;
+  // console.log(johnKidneys)
+  var healthyKidneys = johnKidneys.filter(function (el) {
+    return el.healthy == true
+  });
+  // console.log(healthyKidneys)
+  numOfHealthyKidneys = healthyKidneys.length;
+  numOfUnhealthyKidneys = numberOfKidneys - numOfHealthyKidneys;
+  res.json({
+    numberOfKidneys,
+    numOfHealthyKidneys,
+    numOfUnhealthyKidneys
+  })
 })
 
 app.post("/", function(req, res) {
@@ -22,6 +36,7 @@ app.put("/", function(req, res) {
 app.delete("/", function(req, res) {
 })
 
-port = 3001
+port = 3000
 app.listen(port, function(){
+  console.log("inside clinic")
 })
