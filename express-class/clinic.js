@@ -1,6 +1,8 @@
 const express = require("express");
 const app = express();
 
+app.use(express.json())
+
 var users = [{
   name:"John",
   kidneys:[{
@@ -28,6 +30,14 @@ app.get("/", function(req, res) {
 })
 
 app.post("/", function(req, res) {
+  console.log(req.body)  
+  const isHealthy = req.body.isHealthy
+  users[0].kidneys.push({
+    healthy: isHealthy
+  })
+  res.json({
+    msg:"Done!"
+  })
 })
 
 app.put("/", function(req, res) {
