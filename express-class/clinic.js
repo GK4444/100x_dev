@@ -1,4 +1,6 @@
 const express = require("express");
+const z = require("zod");
+
 const app = express();
 
 app.use(express.json())
@@ -12,9 +14,23 @@ var users = [{
   }]
 }]
 
+// Zod schema for request headers
+const headerSchema = z.object({
+  email: z.string().email().min(2, 'Username is required'),
+  password: z.string().min(8, 'Password is required'),
+});
+
 // Middleware to check username and password
 const authMiddleware = (req, res, next) => {
   const { username, password } = req.headers;
+
+  response = headerSchema.safeParse(req.headers)
+  // console.log(response)
+  if (!response.success){
+    res.status(401).json({
+      "msg":"Your inputs are invalid"
+    })
+  }
 
   // Replace with your authentication logic
   if (username === 'admin' && password === 'password') {
